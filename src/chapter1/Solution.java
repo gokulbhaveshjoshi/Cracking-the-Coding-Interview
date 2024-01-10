@@ -1,6 +1,7 @@
 package chapter1;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Solution {
@@ -105,4 +106,123 @@ public class Solution {
         }
         return sum <= 1;
     }
+
+    public String compression(String str) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            int count = 1;
+            while (i < str.length() - 1  && str.charAt(i) == str.charAt(  i + 1)) {
+                count++;
+                i++;
+            }
+            sb.append(str.charAt(i));
+            sb.append(count);
+        }
+        return sb.toString();
+    }
+
+    public int[][] rotate90(int[][] mat) {
+        int n = mat.length;
+        if (n != mat[0].length) {
+            return null;
+        }
+
+        int[][] ans = new int[n][n];
+        int x = 0, y = 0;
+        for (int j = n - 1; j >= 0; j--) {
+            for (int i = 0; i < n; i++) {
+                ans[x][y] = mat[i][j];
+                y++;
+            }
+            y = 0;
+            x++;
+        }
+        return ans;
+    }
+
+    public int[][] rotate90_2(int[][] mat) {
+        int n = mat.length;
+        for (int layer = 0; layer < n; layer++) {
+            int last = n - 1 - layer;
+
+            for (int i = layer; i < last; i++) {
+                int offset = i - layer;
+
+                int top = mat[layer][i];
+                mat[layer][i] = mat[last - offset][layer];
+                mat[last - offset][layer] = mat[last][last - offset];
+                mat[i][last] = top;
+            }
+        }
+        return mat;
+    }
+
+    public List<List<Integer>> zeroMatrix(List<List<Integer>> matrix) {
+        int m = matrix.size();
+        int n = matrix.get(0).size();
+
+        int[] rows = new int[m];
+        int[] cols = new int[n];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix.get(i).get(j) == 0) {
+                    rows[i] = 1;
+                    cols[i] = 1;
+                }
+            }
+        }
+        for (int i = 0; i < m ; i++) {
+            for (int j = 0; j < n; j++) {
+                if (rows[i] == 1 || cols[j] == 1) {
+                    matrix.get(i).set(j, 0);
+                }
+            }
+        }
+        return matrix;
+    }
+
+    public List<List<Integer>> zeroMatrixO(List<List<Integer>> matrix) {
+        int m = matrix.size();
+        int n = matrix.get(0).size();
+
+        int colO = 1;
+        // 1. make first row and col zero
+        for (int i = 0; i < m ; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix.get(i).get(j) == 0) {
+                    matrix.get(i).set(0,0);
+                    matrix.get(0).set(j, 0);
+                    if (j == 0) {
+                        colO = 0;
+                    }
+                }
+            }
+        }
+        // 2. all row or col set to zero
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix.get(i).get(0) == 0 || matrix.get(0).get(j) == 0) {
+                    matrix.get(i).set(j, 0);
+                }
+            }
+        }
+
+        // 3. check 0th col is zero or not
+        if (matrix.get(0).get(0) == 0) {
+            for (int j = 0; j < n; j++) {
+                matrix.get(0).set(j, 0);
+            }
+        }
+        if (colO == 0) {
+            for (int i = 0; i < m; i++) {
+                matrix.get(i).set(0, 0);
+            }
+        }
+
+        return matrix;
+    }
+
+
 }
