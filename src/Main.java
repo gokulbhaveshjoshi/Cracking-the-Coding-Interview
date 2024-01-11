@@ -23,6 +23,8 @@ public class Main {
                 mat[i][j] = count++;
             }
         }
+        int[][] arr = mat;
+        System.out.println(Arrays.deepToString(solution.rotate90(arr)));
         System.out.println(Arrays.deepToString(solution.rotate90_2(mat)));
 
         List<List<Integer>> matrix = new ArrayList<>();
@@ -41,5 +43,10 @@ public class Main {
         System.out.println(zeroMatrix);
         List<List<Integer>> ans = solution.zeroMatrixO(matrx2);
         System.out.println(ans);
+
+        System.out.println(solution.isStringRotated("waterbottle", "erbottlewat"));
+        System.out.println(solution.isStringRotated2("waterbottle", "erbottlewat"));
+        System.out.println(solution.isStringRotated2("abcdefgh", "xyzabcde"));
+        System.out.println(solution.isStringRotated("abcdefgh", "xyzabcde"));
     }
 }

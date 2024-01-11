@@ -143,16 +143,13 @@ public class Solution {
 
     public int[][] rotate90_2(int[][] mat) {
         int n = mat.length;
-        for (int layer = 0; layer < n; layer++) {
-            int last = n - 1 - layer;
-
-            for (int i = layer; i < last; i++) {
-                int offset = i - layer;
-
-                int top = mat[layer][i];
-                mat[layer][i] = mat[last - offset][layer];
-                mat[last - offset][layer] = mat[last][last - offset];
-                mat[i][last] = top;
+        for (int i = 0; i < n/2; i++) {
+            for (int j = i; j < n - i -1; j++){
+                int temp = mat[i][j];
+                mat[i][j] = mat[j][n-1-i];
+                mat[j][n-1-i] = mat[n-1-i][n-1-j];
+                mat[n-1-i][n-1-j] = mat[n-1-j][i];
+                mat[n-1-j][i] = temp;
             }
         }
         return mat;
@@ -224,5 +221,53 @@ public class Solution {
         return matrix;
     }
 
+    /*
+    TC : O(n)
+    SC 0(n)
+     */
+    public boolean isStringRotated(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        if (s.equals(t)) {
+            return true;
+        }
+        for (int i = 1; i < s.length(); i++) {
+            String x = t.substring(i) + t.substring(0, i);
+            if (s.equals(x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /*
+   TC : O(n + m)
+   SC 0(1)
+    */
+    public boolean isStringRotated2(String s, String t) {
+        if (s.length() == t.length() && !s.isEmpty()) {
+            return isSubstring(s + s, t);
+        }
+        return false;
+    }
 
+    public boolean isSubstring(String s, String t) {
+        int i = 0;
+        int len = s.length();
+        while (i++ < len) {
+            if (len - i < t.length()) {
+                break;
+            }
+            int j = 0;
+            while (i < len && j < t.length() && s.charAt(i) == t.charAt(j)) {
+                i++;
+                j++;
+            }
+
+            if (j == t.length()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
